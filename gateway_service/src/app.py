@@ -22,7 +22,7 @@ def init_base_application() -> FastAPI:
 
 def create_application() -> FastAPI:
     application: FastAPI = init_base_application()
-    application.include_router(ml_router, prefix='/api/model-a', tags=['model-a'])
+    application.include_router(ml_router, prefix='/api/ml-model', tags=['model-a'])
 
     @application.get('/healthcheck')
     async def healthcheck_handler() -> str:

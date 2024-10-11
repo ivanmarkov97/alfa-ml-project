@@ -8,20 +8,39 @@ services:
       - '5000:5000'
     environment:
       ML_SERVICE_URL_A: 'http://ml-service-a:5001'
-      ML_SERVICE_URL_B: 'http://ml-service-a:5001'
+      ML_SERVICE_URL_B: 'http://ml-service-b:5002'
     depends_on:
       ml-service-a:
+        condition: service_healthy
+      ml-service-b:
         condition: service_healthy
 
   ml-service-a:
     build:
       context: ./model_service
       dockerfile: Dockerfile
+    image: local-ml-service-a
+    container_name: ml-service-a
     command: uvicorn src.app:app --reload --host=0.0.0.0 --port=5001
     ports:
       - '5001:5001'
     healthcheck:
       test: ["CMD", "curl", "http://localhost:5001/healthcheck"]
+      interval: 10s
+      timeout: 1s
+      retries: 2
+
+  ml-service-b:
+    build:
+      context: ./model_service
+      dockerfile: Dockerfile
+    image: local-ml-service-b
+    container_name: ml-service-b
+    command: uvicorn src.app:app --reload --host=0.0.0.0 --port=5002
+    ports:
+      - '5002:5002'
+    healthcheck:
+      test: [ "CMD", "curl", "http://localhost:5002/healthcheck" ]
       interval: 10s
       timeout: 1s
       retries: 2

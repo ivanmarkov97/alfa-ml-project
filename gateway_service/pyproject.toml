@@ -1,5 +1,5 @@
 [project]
-name = "house_model_service"
+name = "api_gateway"
 version = "0.0.1"
 requires-python = ">= 3.9"
 dependencies = [
@@ -15,7 +15,7 @@ authors = [
 maintainers = [
   {name = "Ivan Markov", email = "ivan.markov@example.com"},
 ]
-description = "ML Serivce for house price predictions"
+description = "API Gateway for ML predictions"
 readme = "README.md"
 
 [project.urls]
